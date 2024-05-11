@@ -5,7 +5,7 @@ class AnswersController < ApplicationController
     render json: response_msg("image_url not supplied as parameter"), status: :bad_request
   end
   def image_url
-    image_url = index_params
+    image_url = image_url_params
 
     if !valid_url?(image_url)
       return render json: response_msg("image_url format is incorrect"), status: :bad_request
@@ -18,7 +18,7 @@ class AnswersController < ApplicationController
   end
 
   private
-  def index_params
+  def image_url_params
     parse_url(params[:image_url])
   end
 
@@ -56,8 +56,8 @@ class AnswersController < ApplicationController
       return content_type.include?("image/")
     rescue => e
       # Fallback check extension
-      lastPathSegment = url.split('/')[-1]
-      extension = lastPathSegment.include?(".") ? lastPathSegment.split(".")[-1] : nil
+      last_path_segment = url.split('/')[-1]
+      extension = last_path_segment.include?(".") ? last_path_segment.split(".")[-1] : nil
 
       if !extension.nil?
         return extension.downcase.in? ["jpg", "jpeg", "gif", "png", "webp"]

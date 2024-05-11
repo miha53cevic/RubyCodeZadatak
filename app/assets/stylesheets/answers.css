@@ -1,0 +1,57 @@
+html {
+    --primary-color: #00565F;
+    --secondary-color: #FFFFFF;
+    --text-color:  #131313;
+
+    color: var(--text-color);
+    background-color: var(--secondary-color);
+}
+
+.pageContainer {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.paper {
+    background-color: var(--secondary-color);
+    padding: 1rem;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+}
+
+.apiList {
+    display: flex;
+    flex-direction: column;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    gap: 1rem;
+}
+
+.apiMethod {
+    background: color-mix(in srgb, var(--primary-color) 75%, transparent);
+    border: 1px solid var(--primary-color);
+    border-radius: 0.5rem;
+    cursor: pointer;
+}
+
+.apiMethod summary {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    gap: 1rem;
+}
+
+.apiMethod p {
+    flex: 1;
+}
+
+.arrowIcon {
+    border: solid black;
+    border-width: 0 5px 5px 0;
+    display: inline-block;
+    padding: 5px;
+    transform: rotate(45deg);
+}
