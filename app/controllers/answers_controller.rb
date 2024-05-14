@@ -1,23 +1,26 @@
-require 'net/http'
+# frozen_string_literal: true
 
 class AnswersController < ApplicationController
   def index
-    render json: response_msg("image_url not supplied as parameter"), status: :bad_request
+    render json: response_msg('image_url not supplied as parameter'), status: :bad_request
   end
+
   def image_url
     image_url = image_url_params
+    return render json: response_msg('image_url format is incorrect'), status: :bad_request unless valid_url?(image_url)
 
-    if !valid_url?(image_url)
-      return render json: response_msg("image_url format is incorrect"), status: :bad_request
-    end
-
-    render json: is_image?(image_url) ? response_msg("This is an image") : response_msg("This is not an image")
+    is_image = ImageChecker.new(image_url).call
+    render json: is_image ? response_msg('This is an image') : response_msg('This is not an image')
+  rescue StandardError => e
+    render json: response_msg(e.message), status: :bad_request
   end
+
   def api_docs
     render :api_docs
   end
 
   private
+
   def image_url_params
     parse_url(params[:image_url])
   end
@@ -25,44 +28,22 @@ class AnswersController < ApplicationController
   def parse_url(url)
     # Fix http:// being changed to http:/
     parsed_url = url
-    if url.include?("https:/")
-      parsed_url = url.sub("https:/", "https://")
-    elsif url.include?("http:/")
-      parsed_url = url.sub("http:/", "http://")
+    if url.include?('https:/')
+      parsed_url = url.sub('https:/', 'https://')
+    elsif url.include?('http:/')
+      parsed_url = url.sub('http:/', 'http://')
     end
-    return parsed_url
+    parsed_url
   end
 
   def response_msg(msg)
-    return { :message => msg }
+    { message: msg }
   end
 
   def valid_url?(url)
     uri = URI.parse(url)
-    uri.kind_of?(URI::HTTP) && uri.host.present?
+    uri.is_a?(URI::HTTP) && uri.host.present?
   rescue URI::InvalidURIError
-    return false
-  end
-
-  def is_image?(url)
-    # Try to get content type of url head fetch
-    begin
-      uri = URI.parse(url)
-      content_type = ""
-      Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == 'https') do |http|
-        response = http.head(uri.path)
-        content_type = response['Content-Type']
-      end
-      return content_type.include?("image/")
-    rescue => e
-      # Fallback check extension
-      last_path_segment = url.split('/')[-1]
-      extension = last_path_segment.include?(".") ? last_path_segment.split(".")[-1] : nil
-
-      if !extension.nil?
-        return extension.downcase.in? ["jpg", "jpeg", "gif", "png", "webp"]
-      end
-      return false
-    end
+    false
   end
 end
