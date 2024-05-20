@@ -10,20 +10,60 @@
         <details>
           <summary>
             <h3>GET</h3>
-            <p>/answers/{image_url}</p>
+            <span>/answers/{image_url}</span>
             <i class="arrowIcon"></i>
           </summary>
-          <div>Objasnjenje</div>
+          <div class="apiMethodContent">
+            <h4>Overview</h4>
+            <p>Check if image_url parameter is an image</p>
+            <h4>Example Usage</h4>
+            <div>
+              <code>curl -X GET "http://localhost:3000/answers/http://my-image.png"</code>
+              <br><br>
+              <code>curl -X GET "http://localhost:3000/answers/http://not-an-image"</code>
+            </div>
+            <h4>Responses</h4>
+            <div>
+              <div>
+                <h5>200</h5>
+                <code>{ message: "This is an image" }</code>
+                <br><br>
+                <code>{ message: "This is not an image" }</code>
+              </div>
+              <div>
+                <h5>400</h5>
+                <code>{ message: "image_url is missing or empty" }</code>
+                <br><br>
+                <code>{ message: "image_url not supplied as parameter" }</code>
+                <br><br>
+                <code>{ message: "image_url format is incorrect" }</code>
+              </div>
+            </div>
+          </div>
         </details>
       </li>
       <li class="apiMethod">
         <details>
           <summary>
             <h3>GET</h3>
-            <p>/api/docs</p>
+            <span>/api/docs</span>
             <i class="arrowIcon"></i>
           </summary>
-          <div>Objasnjenje</div>
+          <div class="apiMethodContent">
+            <h4>Overview</h4>
+            <p>View api docs</p>
+            <h4>Example Usage</h4>
+            <div>
+              <code>curl -X GET "http://localhost:3000/api/docs"</code>
+            </div>
+            <h4>Responses</h4>
+            <div>
+              <div>
+                <h5>200</h5>
+                <code>html</code>
+              </div>
+            </div>
+          </div>
         </details>
       </li>
     </ul>

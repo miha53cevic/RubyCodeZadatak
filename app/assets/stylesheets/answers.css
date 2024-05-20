@@ -55,10 +55,33 @@ html {
     padding-left: 1rem;
     padding-right: 1rem;
     gap: 1rem;
+    user-select: none; /* Disable text selecting */
 }
 
-.apiMethod p {
+.apiMethod span {
     flex: 1;
+}
+
+.apiMethodContent {
+    padding: 1rem;
+    background-color: var(--secondary-color);
+    cursor: default;
+    user-select: none;
+    border-radius: 0 0 0.5rem 0.5rem;
+}
+
+code {
+    cursor: text;
+    user-select: text;
+
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #f4f4f4;
+    color: #d63384;
+    padding: 0.2rem 0.4rem;
+    margin: 0 0.2rem;
+    border-radius: 0.25rem;
+    border: 1px solid #ddd;
+    font-size: 1rem;
 }
 
 .arrowIcon {
